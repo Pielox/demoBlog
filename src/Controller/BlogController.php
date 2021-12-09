@@ -181,7 +181,7 @@ class BlogController extends AbstractController
     {
         // Cette méthode mise à disposition retourne un objet App\Entity\Article contenant toute les données de l'utilisateur authentifié sur le site
         $user = $this->getUser();
-        dd($user);
+        // dd($user);
         
         $commentaire = new Commentaire; 
 
@@ -224,13 +224,6 @@ class BlogController extends AbstractController
 
     }
 
-    /*
-        Exo : créer une page profil affichant les données de l'utilisateur authentifié
-        1. Créer une nouvelle route '/profil'
-        2. Créer une nouvelle méthode userProfil()
-        3. Cette méthode renvoi un template 'registration/profil.html.twig'
-        4. Afficher dans ce template les informations de l'utilisateur connecté
-    */
 
-    #[Route('/blog/profil', name: 'blog_profil')]
+
 }
