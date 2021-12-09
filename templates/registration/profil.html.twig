@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Page profil
+{% endblock %}
+
+{% block body %}
+
+    
+
+    <h1 class="text-center my-5">Votre page profil : {{ user.nom }} {{ user.prenom }}</h1>
+
+{% if user.roles.0 == 'ROLE_ADMIN' %}
+    <p class="text-center text-secondary">Vous êtes ADMINISTRATEUR du site</p>
+{% endif %}
+
+<div class="container mb-5">
+    <div class="card mx-auto col-6 shadow p-3 mb-5 bg-body rounded">
+    <div class="d-flex">
+        <img src="http://pm1.narvii.com/7370/56ba6b6ccfb4f5454156a63cbaf27cfd518a12b3r1-400-400v2_00.jpg" class="rounded-circle mx-auto my-3" style="height:300px; width:300px;" >
+    </div>
+     <table class="table text-center mb-0">
+            <tr><td><strong>Email :</strong></td><td>{{ user.email }}</td></tr>
+            <tr><td><strong>Prenom :</strong></td><td>{{ user.prenom }}</td></tr>
+            <tr><td><strong>Nom :</strong></td><td>{{ user.nom }}</td></tr>
+            <tr><td><strong>Adresse :</strong></td><td>{{ user.adresse }}</td></tr>
+            <tr><td><strong>Ville :</strong></td><td>{{ user.ville }}</td></tr>
+            <tr><td><strong>Code postal :</strong></td><td>{{ user.CodePostal }}</td></tr>
+            <tr><button class="btn btn-secondary"><a href="{{ path('app_profil_edit', {'id' : user.id} ) }}" class="text-white">Modifier</a></button></tr>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{# <div class="container">
+       
+    </div> #}
+ 

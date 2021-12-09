@@ -1,0 +1,52 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}
+    BlogSymfony | Gestion des articles
+{% endblock %}
+
+{% block body %}
+
+    {{dump(cell)}}
+
+    <table class="table table-striped">
+        <tr>
+        {# colonnes : objet (BackOfficeController) qui contient tout les noms des champs/colonnes de la table SQL Article #}
+        {% for data in colonnes %}
+
+            {% if data != 'id' %}
+                
+            
+            {# capitalize : filtre Twig permettant de mettre la 1ère de la chaine de caractères en majuscule #}
+            <th class="text-center">{{ data|capitalize }}</th>
+
+            {% endif %} 
+
+        {% endfor %}
+            <th>Cat.</th>
+            <th>Nb Comm.</th>
+            <th>Action</th>
+            
+        </tr>
+        {% for value in cell %}
+            {% if value != 'id' %}
+                
+            
+            <tr>
+                <td> {{ value.titre }} </td>
+                <td> {{ value.contenu|slice(0,100)|striptags }}[...]</td>
+                <td> <img src="{{ asset('uploads/photos/' ~ value.photo) }}" alt="{{value.photo}}" style="width: 150px; height: 150px;"></td>
+                <td> {{ value.date|date("d-m-Y H:i") }} </td>
+                <td> {{ value.category.titre }} </td>
+                <td> {{ value.commentaires|length }} </td>
+
+                <td>
+                <button class="btn btn-success mb-2 ms-3 mt-3"><a href="{{ path('blog_edit', {'id': value.id}) }}"><i class="bi bi-pen text-white"></i></a>
+                </button><button class="btn btn-danger ms-3 mt-3"><a href=""><i class="bi bi-trash text-white"></i></a></button>
+                </td>
+                
+            </tr>   
+            {% endif %}
+        {% endfor %}
+    </table>
+
+{% endblock %}

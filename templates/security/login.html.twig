@@ -9,6 +9,12 @@
         </div>
     {% endif %}
 
+    {% for message in app.flashes('success') %}
+        <div class="col-6 mx-auto text-center alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <h1 class="text-center my-5">Inscription</h1>
 
 <form method="post" class="col-4 mx-auto text-center">
