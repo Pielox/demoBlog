@@ -51,8 +51,13 @@ class ArticleType extends AbstractType
                     'rows' => "10"
                 ],
                 'constraints' => [
+                    new Length([
+                        'min' => 10,
+                        'minMessage' => "Contenu trop court (min 10 caractères)"                        
+                    ]),
                     new NotBlank([
-                        'message' => "Merci de saisir un titre d'article"
+                        'message' => "Merci de saisir un contenu à l'article",
+                        
                     ])
                 ]
             ])

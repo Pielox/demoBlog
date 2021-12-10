@@ -21,12 +21,20 @@
       <div class="col-md-6">
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
           <div class="col-{{ col }} p-4 d-flex flex-column position-static">
-            <strong class="d-inline-block mb-2 text-primary">{{data.category.titre}}</strong>
+
+            {% if data.category.titre == 'Apprenti Pourfendeur' %}
+                    <strong class="d-inline-block mb-2 text-success">{{ data.category.titre }}</strong>
+                {% elseif data.category.titre == 'Pilier' %}
+                    <strong class="d-inline-block mb-2 text-warning">{{ data.category.titre }}</strong>
+                {% else %}
+                    <strong class="d-inline-block mb-2 text-danger">{{ data.category.titre }}</strong>
+                {% endif %}
+
             <h3 class="mb-0"> {{data.titre}} </h3>
             <div class="mb-1 text-muted">Publié le {{ data.date|date("d-m-Y H:i") }}</div>
             <p class="card-text mb-auto">{{ data.contenu|slice(0,100)|striptags }}[...]</p>
             {# On founir à la route l'id de l'article à transmettre dans l'url. La route 'blog_show' est une route paramètrée, on doit lui fournir un paramètres, ici l'id #}
-            <a href="{{ path('blog_show', {'id': data.id}) }}" class="stretched-link">Lire la suite</a>
+            <a href="{{ path('blog_show', {'id': data.id}) }}" class="stretched-link text-secondary text-decoration-none fw-bold">Lire la suite...</a>
           </div>
           {% if data.photo != null %}
             <div class="col-6 d-none d-lg-block">

@@ -1,0 +1,40 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    Blog Symfony Admin | Nouvel article
+{% endblock %}
+
+{% block body %}
+        {% if editMode %}
+        <h1 class="text-center my-5">Modification de l'article depuis Admin</h1>
+    {% else %}
+        <h1 class="text-center my-5">Nouvel Article depuis Admin</h1>
+    {% endif %}
+    
+    
+<div class="container">
+
+    {{ form_start(adminArticlesForm) }}
+
+        {{ form_row(adminArticlesForm.titre) }}
+
+        {{ form_row(adminArticlesForm.category) }}
+
+        {{ form_row(adminArticlesForm.contenu)}}
+
+        {{ form_row(adminArticlesForm.photo) }}
+
+
+        
+            {% if photoActuelle %}
+            <em>Vous pouvez insérer une nouvelle photo si vous le souhaitez</em>
+            <div class="col-2 mb-2">
+                <img src="{{ asset('uploads/photos/' ~ photoActuelle) }}" alt="" class="col-12 img-responsive">
+            </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-dark">Enregistrer</button>
+    {{ form_end(adminArticlesForm) }}
+    
+</div>
+{% endblock %}

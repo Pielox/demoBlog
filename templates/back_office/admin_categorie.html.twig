@@ -1,0 +1,46 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    Blog Symfony Admin | Catégories
+{% endblock %}
+
+{% block body %}
+
+{{ dump(categorys) }}
+
+<div class="container mb-5">
+    <div class="card mx-auto col-6 shadow p-3 mb-5 bg-body rounded">
+    <div class="d-flex">
+        <img src="http://pm1.narvii.com/7394/bd7bcd059c3eb552f3170d2c5bc01d0bde66cb79r1-400-400v2_00.jpg" class="rounded-circle mx-auto my-3" style="height:300px; width:300px;" >
+    </div>
+     <table class="table text-center mb-0">
+                <tr><th>Catégories :</th><th>Description :</th><th>Nb article :</th><th>Action :</th></tr>
+        {% for value in categorys %}
+            <tr>
+                <td>{{ value.titre }}</td>
+                <td>{{ value.description }}</td>
+                <td class="text-center">{{ value.articles|length }}</td>
+
+                <td>
+                <a href="" class="btn btn-primary"><i class="bi bi-plus square text-white"></i>
+                </a>
+                <br>
+                <a href="" class="btn btn-success my-2"><i class="bi bi-trash text-white"></i>
+                </a>
+                <br>
+                <a href="" class="btn btn-danger"><i class="bi bi-trash text-white"></i>
+                </a>
+                </td>
+            
+            </tr>
+    
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+
+
+{% endblock %}
+        
+    
