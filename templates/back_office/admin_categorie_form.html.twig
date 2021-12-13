@@ -1,0 +1,27 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    BlogSymfony | Nouvel catégorie
+{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-center my-5">Nouvel catégorie</h1>
+
+    <div class="container col-6">
+        {{ form_start(formCategory) }}
+
+            {{ form_row(formCategory.titre) }}
+
+            {{ form_row(formCategory.description, {'attr': {'rows': 8}}) }}
+
+            {# {{ form_row(formCategory.name) }} #}
+
+        <div class="d-flex">
+            <button type="submit" class="btn btn-dark mx-auto">Enregistré</button>
+        </div>
+
+        {{ form_end(formCategory) }}
+    </div>
+
+{% endblock %}

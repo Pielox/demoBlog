@@ -87,3 +87,7 @@ body {
   
   .fw-semibold { font-weight: 600; }
   .lh-tight { line-height: 1.25; }
+
+.active{
+  background-color: rgba(115, 0, 161, 0.685) !important;
+}

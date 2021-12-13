@@ -1,0 +1,63 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}
+    BlogSymfony | Gestion des articles
+{% endblock %}
+
+{% block body %}
+
+    {% for message in app.flashes('success') %}
+        <div class="col-6 alert alert-success mx-auto text-center">
+            {{message}}
+        </div>
+    {% endfor %}
+
+
+    <table class="table table-striped" id="table-backoffice-commentaires">
+        <thead>
+            <tr>
+            <th>Titre de l'article</th>
+            {# colonnes : objet (BackOfficeController) qui contient tout les noms des champs/colonnes de la table SQL Article #}
+            {% for data in colonnes %}
+
+                {% if data != 'id' %}
+                    
+                
+                {# capitalize : filtre Twig permettant de mettre la 1ère de la chaine de caractères en majuscule #}
+                <th class="text-center">{{ data|capitalize }}</th>
+
+                {% endif %} 
+
+            {% endfor %}
+                <th>Action</th>
+                
+        </tr>
+        </thead>
+        <tbody>
+        {% for value in cell %}
+            {% if value != 'id' %}
+            
+            
+            <tr>
+                <td> {{ value.article.titre }} </td>
+
+                <td> {{ value.commentaire|slice(0,200)|striptags }}</td>
+
+                <td> {{ value.auteur }}</td>
+
+                <td> {{ value.date|date("d-m-Y H:i") }} </td>
+
+                <td>
+                    
+                <a href="{{ path('app_admin_commentaires_update', {'id': value.id}) }}" class=" btn btn-success mx-auto mb-3 mt-3 ms-3"><i class="bi bi-pen text-white"></i></a>
+
+                <a href="{{ path('app_admin_commentaires_remove', {'id': value.id}) }}" class="btn btn-danger mx-auto ms-3" onclick="return(confirm('Voulez-vous réellement supprimer le commentaire de {{value.auteur}}')); "><i class="bi bi-trash text-white"></i></a>
+                </td>
+                
+            </tr>   
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

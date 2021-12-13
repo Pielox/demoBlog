@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Category;
 use App\Form\ArticleType;
 use App\Form\CommentType;
 use App\Entity\Commentaire;
 use Doctrine\ORM\EntityManager;
 use App\Repository\ArticleRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,9 +31,22 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route('/blog', name: 'blog')]
-    public function blog(ArticleRepository $repoArticle): Response
+    # cette méthode permet de selectionner toute les catégories de la BDD mais ne possède pas de routes, les catégories seront intégrées dans base.html.twig
+    public function allCategory(CategoryRepository $repoCategory)
     {
+        $categorys = $repoCategory->findAll();
+
+        return $this->render('blog/categorys_list.html.twig', [
+            'categorys' => $categorys
+        ]);
+    }
+
+    #[Route('/blog', name: 'blog')]
+    #[Route('/blog/categorie/{id}', name: 'blog_categorie')]
+    public function blog(ArticleRepository $repoArticle, Category $category = null): Response
+    {
+
+        // dd($category)->getArticles();
         /*
             Injection de dépendances : c'est un des fondement de Symfony, ici notre méthode dépend de la classe ArticleRepository pour fonctionner correctement
             Ici Symfony comprend que la méthode blog() attend un argument objet issu de la classe ArticleRepository, automatiquement Symfony envoi une instance de cette classe en argument de cette classe
@@ -55,12 +70,19 @@ class BlogController extends AbstractController
         // dump() / dd() : outil de débug de symfony
         //dd($repoArticle);
 
-        // findAll() : méthode issue de la classe ArticleRepository permettant de selectionner l'ensemble de la table SQL et de récuperer un talbeau multi contenant l'ensemble des articles
-        $articles = $repoArticle->findAll(); // SELECT * FROM article + FETCH_ALL
-        // dd($articles);
-
-        // dd($articles);
-
+        // Si la condition retourne TRUE, cela veut dire que l'utilisateur a cliqué sur le lien d'une catégorie dans la nav et par conséquent, $category contient une catégorie stocké en BDD, alors on entre dans la condition IF
+        if($category)
+        {
+            // Grace aux relations bi-directionnelle, lorsque nous selectionnons une catégorie en BDD, nous avons accès automatiquement a tous les articles liés a cette catégories
+            // getArticles() retourne un array multi contenant tout les articles liés à la catégorie transmise dans l'URL
+            $articles = $category->getArticles();
+        }
+        else // Sinon aucune catégorie n'est ransmise dans l'URL, alors on selectionne tout  les articles dans la BDD
+        {
+            // findAll() : méthode issue de la classe ArticleRepository permettant de selectionner l'ensemble de la table SQL et de récuperer un talbeau multi contenant l'ensemble des articles
+            $articles = $repoArticle->findAll(); // SELECT * FROM article + FETCH_ALL
+        }
+     
         return $this->render('blog/blog.html.twig',[
             'articles' => $articles
         ]);
@@ -185,7 +207,9 @@ class BlogController extends AbstractController
         
         $commentaire = new Commentaire; 
 
-        $formComment = $this->createForm(CommentType::class, $commentaire);
+        $formComment = $this->createForm(CommentType::class, $commentaire, [
+            'commentFormFront' => true
+        ]);
 
         $formComment->handleRequest($request);
 
@@ -195,7 +219,8 @@ class BlogController extends AbstractController
         {
             $commentaire->setDate(new \DateTime());
             $commentaire->setArticle($article); // Permet de lié le commentaire à l'article
-
+            $commentaire->setAuteur($user->getNom().' '.$user->getPrenom());
+            
             $this->addFlash('success', "Votre commentaire à bien été posté !"); 
 
             $manager->persist($commentaire); // équivalent prepare binValue
@@ -224,6 +249,6 @@ class BlogController extends AbstractController
 
     }
 
-
+  
 
 }
