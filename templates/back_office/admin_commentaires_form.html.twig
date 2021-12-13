@@ -1,0 +1,26 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    BlogSymfony | Modifation commentaires
+{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-center my-5">Modifier le commentaire</h1>
+
+    <div class="container col-6">
+        {{ form_start(formComment) }}
+
+
+            {{ form_row(formComment.commentaire, {'attr': {'rows': 8}}) }}
+
+            {# {{ form_row(formCategory.name) }} #}
+
+        <div class="d-flex">
+            <button type="submit" class="btn btn-dark mx-auto">Modifier</button>
+        </div>
+
+        {{ form_end(formComment) }}
+    </div>
+
+{% endblock %}

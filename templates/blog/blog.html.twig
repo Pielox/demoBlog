@@ -24,10 +24,17 @@
 
             {% if data.category.titre == 'Apprenti Pourfendeur' %}
                     <strong class="d-inline-block mb-2 text-success">{{ data.category.titre }}</strong>
+
                 {% elseif data.category.titre == 'Pilier' %}
                     <strong class="d-inline-block mb-2 text-warning">{{ data.category.titre }}</strong>
+
+                {% elseif data.category.titre == 'Gentil démon' %}
+                  <strong class="d-inline-block mb-2 text-violet">{{ data.category.titre }}</strong>
+
+
                 {% else %}
                     <strong class="d-inline-block mb-2 text-danger">{{ data.category.titre }}</strong>
+
                 {% endif %}
 
             <h3 class="mb-0"> {{data.titre}} </h3>
