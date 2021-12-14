@@ -1,0 +1,57 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    Blog Symfony Admin | Users
+{% endblock %}
+
+{% block body %}
+
+    {% for label, messages in app.flashes(['success', 'danger']) %}
+
+        {% for message in messages %}
+            {# On se sert de l'identifiant du message (success, danger) pour les intégrer comme class bootstrap #}
+            <div class="col-6 mx-auto text-center bg-{{ label }} p-3 text-white mb-3">{{ message }}</div>
+            
+        {% endfor %}
+        
+    {% endfor %}
+
+<div class="container mb-5">
+    <div class="card mx-auto col-6 shadow p-3 mb-5 bg-body rounded">
+    <div class="d-flex">
+        <img src="https://pbs.twimg.com/profile_images/1447870919943147523/xBeX18-t_400x400.jpg" class="rounded-circle mx-auto my-3" style="height:300px; width:300px;" >
+    </div>
+     <table class="table text-center mb-0">
+                <tr><th>Rôle :</th><th>Prénoms :</th><th>Nom :</th><th>Adresse :</th><th>Ville :</th><th>Code Postal :</th><th>Action :</th></tr>
+        {% for value in users %}
+            <tr>
+                {% if value.roles|length == 2 %}
+                <td>Admin</td>
+                {% else %}
+                <td>Utilisateur</td>
+                {% endif %}
+                <td>{{ value.prenom }}</td>
+                <td>{{ value.nom }}</td>
+                <td>{{ value.adresse }}</td>
+                <td>{{ value.ville }}</td>
+                <td>{{ value.CodePostal }}</td>
+
+                <td>
+                <a href="{{ path('app_admin_users_update', {'id': value.id}) }}" class="btn btn-success my-2"><i class="bi bi-pencil text-white"></i>
+                </a>
+                <br>
+                <a href="{{ path('app_admin_users_remove', {'id': value.id}) }}" class="btn btn-danger mx-auto ms-3" onclick="return(confirm('Voulez-vous réellement supprimer le profil n° {{value.id}}')); "><i class="bi bi-trash text-white"></i></a>
+                </td>
+            
+            </tr>
+    
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+
+
+{% endblock %}
+        
+    

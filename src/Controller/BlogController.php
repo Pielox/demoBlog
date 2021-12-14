@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\Category;
 use App\Form\ArticleType;
@@ -82,6 +83,8 @@ class BlogController extends AbstractController
             // findAll() : méthode issue de la classe ArticleRepository permettant de selectionner l'ensemble de la table SQL et de récuperer un talbeau multi contenant l'ensemble des articles
             $articles = $repoArticle->findAll(); // SELECT * FROM article + FETCH_ALL
         }
+
+    
      
         return $this->render('blog/blog.html.twig',[
             'articles' => $articles
@@ -119,7 +122,8 @@ class BlogController extends AbstractController
         
         if(!$article)
         {
-            $article = new Article;            
+            $article = new Article;    
+            
         }
 
         // $article->setTitre("Titre nul");
@@ -137,7 +141,10 @@ class BlogController extends AbstractController
             // Le champs date n'existe pas en tant que formulaire
             if(!$article->getId())
             {
+                $articleUser = $this->getUser();
+
                 $article->setDate(new \DateTime());
+                $article->setUSer($articleUser);
                 $txt = "enregistré";
             }
             else
@@ -182,6 +189,7 @@ class BlogController extends AbstractController
 
             $manager->persist($article);
 
+
             $manager->flush();
 
             // Une fois l'insertion/modification terminé, on redirige l'internaute vers l'article
@@ -192,7 +200,7 @@ class BlogController extends AbstractController
             'formArticle' => $formArticle->createView(), // on transmet le formulaire au tempalte afin de pouvoir l'afficher en twig
             // createView() : Retourne un petit objet qui représente
             'editMode' => $article->getId(),
-            'photoActuelle' => $article->getPhoto()
+            'photoActuelle' => $article->getPhoto()       
         ]);
     }
     

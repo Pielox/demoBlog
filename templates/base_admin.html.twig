@@ -82,7 +82,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ path('app_admin_article_add') }}" class="nav-link text-white {% if route_name == 'app_admin_article_add' %} active {% endif %}">
+            <a href="{{ path('app_admin_article_add') }}" class="nav-link text-white {% if route_name == 'app_admin_article_add' %} active {% endif %} {% if route_name == 'admin_edit' %} active {% endif %}">
             <i class="bi bi-file-earmark-plus icon-logo"></i>
             Nouvel article
             </a>
@@ -94,7 +94,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ path('app_admin_categorie_add') }}" class="nav-link text-white {% if route_name == 'app_admin_categorie_add' %} active {% endif %}">
+            <a href="{{ path('app_admin_categorie_add') }}" class="nav-link text-white {% if route_name == 'app_admin_categorie_add' %} active {% endif %} {% if route_name == 'app_admin_categorie_update' %} active {% endif %}">
             <i class="bi bi-bookmark-plus"></i>
             Nouvel catégorie
             </a>
@@ -106,13 +106,13 @@
             </a>
         </li>
         <li>
-            <a href="{{ path('app_admin_commentaires') }}" class="nav-link text-white {% if route_name == 'app_admin_commentaires' %} active {% endif %}">
+            <a href="{{ path('app_admin_commentaires') }}" class="nav-link text-white {% if route_name == 'app_admin_commentaires' %} active {% endif %} {% if route_name == 'app_admin_commentaires_update' %} active {% endif %}">
             <i class="bi bi-chat icon-logo"></i>
             Commentaires
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link text-white">
+            <a href="{{ path('app_admin_users') }}" class="nav-link text-white {% if route_name == 'app_admin_users' %} active {% endif %} {% if route_name == 'app_admin_users_update' %} active {% endif %}">
             <i class="bi bi-person-circle icon-logo"></i>
             User
             </a>

@@ -1,0 +1,54 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    Blog Symfony Admin | User Update
+{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-center my-5">Modification User</h1>
+
+        <div class="container mb-5">
+    <div class="card mx-auto col-6 shadow p-3 mb-0 bg-body rounded">
+    <div class="d-flex">
+        {% if users.roles|length == 2  %}
+        <img src="https://c.tenor.com/KpDCutyqru4AAAAC/kimetsu-no-yaiba-demon-slayer.gif" class="rounded-circle mx-auto my-3" style="height:300px; width:300px;" >
+        {% else %}
+        <img src="https://www.buzzfrance.fr/wp-content/uploads/2021/07/zenitsu-agatsuma.gif" class="rounded-circle mx-auto my-3" style="height:300px; width:300px;" >
+        {% endif %}
+        
+    </div>
+     <table class="table table-stripped text-center mb-0" id="table-users">
+                <tr><th>Rôle :</th><th>Prénoms :</th><th>Nom :</th><th>Email :</th><th>Adresse :</th><th>Ville :</th><th>Code Postal :</th></tr>
+            <tr>
+                {% if users.roles|length == 2 %}
+                <td>Admin</td>
+                {% else %}
+                <td>Utilisateur</td>
+                {% endif %}
+                <td>{{ users.prenom }}</td>
+                <td>{{ users.nom }}</td>
+                <td>{{ users.email }}</td>
+                <td>{{ users.adresse }}</td>
+                <td>{{ users.ville }}</td>
+                <td>{{ users.CodePostal }}</td>
+            
+            </tr>
+
+        <tr>
+            <td colspan="6">
+            
+                {{ form_start(formUser) }}
+
+                    {{ form_row(formUser.roles) }}
+
+                    <button type="submit" class="btn btn-dark">Modifier</button>
+
+                {{ form_end(formUser) }}
+
+
+                    
+            </td>
+        </tr>
+    </table>
+{% endblock %}

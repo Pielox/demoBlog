@@ -55,13 +55,13 @@
                 <div class="col-4 pt-1">
                     {# Si app.user retourne TRUE, cela veut dire que l'internaute est authentifié, on entre dans le IF #}
                     {% if app.user %}
-                        <a class="link-secondary text-decoration-none" href="" title="Accès à votre compte">Bonjour <strong>{{ app.user.prenom }} {{ app.user.nom}}</strong></a>
+                        <a class="link-secondary text-decoration-none" href="{{path('app_profil')}}" title="Accès à votre compte">Bonjour <strong>{{ app.user.prenom }} {{ app.user.nom}}</strong></a>
                     {% else %}
                     <a class="link-secondary" href="{{path('app_register')}}">Créer votre compte</a>
                     {% endif %}
                 </div>
                 <div class="col-4 text-center">
-                    <a class="blog-header-logo text-dark" href="#">Symfony</a>
+                    <a class="blog-header-logo text-dark" href="/">Symfony</a>
                 </div>
                 <div class="col-4 d-flex justify-content-end align-items-center">
                     <a class="link-secondary" href="#" aria-label="Search">

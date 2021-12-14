@@ -6,6 +6,8 @@
 
 {% block body %}
 
+    <h1 class="text-center my-5">Catégories</h1>
+
     {% for label, messages in app.flashes(['success', 'danger']) %}
 
         {% for message in messages %}

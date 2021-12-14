@@ -31,6 +31,56 @@
     </div>
 </div>
 
+    <h3 class="text-center my-5">Vos articles postés :</h3>
+    {% if user.user|length > 0 %}
+    <h5 class="text-center my-3 fst-italic">
+    Vous avez poster {{user.user|length}} article{% if user.user|length > 0 %}s{% endif %} 
+    </h5>
+    {% else %}
+    <h5 class="text-center my-3 fst-italic">
+    Vous n'avez pas posté d'articles 
+    </h5>
+    {% endif %}
+
+
+    {# {{ dump(article) }} #}
+    {# <div class="container mb-2">
+        <ul class="list-group text-center col-4 mx-auto">
+            <a href=" {{ path('blog_show', {'id': article.id}) }} " class=" text-decoration-none"><li class="list-group-item mb">{{ article.titre}} publié le {{ article.date|date("d-m-Y H:i") }}</li></a>
+        </ul>
+    </div> #}
+<div id="carouselExampleCaptions" class="carousel slide  mx-auto mb-5" data-bs-ride="carousel" style="height: 500px; width:500px;">
+  <div class="carousel-inner">
+  {% set first = 1 %}
+   {% for article in user.user %}
+    <div class="carousel-item {% if first == 1 %} active {% endif %}" style="height: 500px; width:500px;">
+    
+      <img src="{{ asset('uploads/photos/' ~ article.photo) }}" class="d-block w-100 rounded-circle" alt="..." >
+      <div class="carousel-caption d-none d-md-block">
+        <h5>{{article.titre}}</h5>
+        <p>Publié le {{ article.date|date("d-m-Y H:i") }}</p>
+        <a href="{{ path('blog_show', {'id': article.id}) }}" class="btn btn-danger">Voir l'article</a>
+      </div>
+    </div>
+      {% set first = 0 %}
+
+      {% endfor %}
+    </div>
+    
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+
+    {# {{ dump(user)}} #}
+
 {% endblock %}
 
 {# <div class="container">

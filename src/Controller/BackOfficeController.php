@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\Category;
 use App\Form\ArticleType;
 use App\Form\CommentType;
 use App\Form\CategoryType;
 use App\Entity\Commentaire;
+use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -199,7 +202,7 @@ class BackOfficeController extends AbstractController
     if($cat)
     {
         // On récupère le titre de la catégorie ayant la suppression pour l'intégrer dans le mossage utilisateur
-        $titreCat=$cat->getTitre();
+        $titreCat = $cat->getTitre();
 
         //  getArticle() retourne tout les articles liés à la catégorie, si le résultat est vide, cela veut dire qu'aucun article n'est lié à la catégorie, on entre dans le IF et on supprime la catégorie
         if($cat->getArticles()->isEmpty())
@@ -328,4 +331,60 @@ class BackOfficeController extends AbstractController
             
     }   
     
+    #[Route('/admin/users', name: 'app_admin_users')]
+    #[Route('/admin/users/{id}/remove', name: 'app_admin_users_remove')]
+    public function adminUsers(Request $request, UserRepository $user, EntityManagerInterface $manager, User $userRemove = null) : Response
+    {
+
+        if($userRemove)
+            {
+                $id = $userRemove->getId();
+    
+    
+                $manager->remove($userRemove);
+                $manager->flush();
+    
+                $this->addFlash('success', "Le profil n°$id à bien été supprimé");
+    
+                return $this->redirectToRoute('app_admin_users');
+            }
+        $users = $user->findAll();
+
+        return $this->render('back_office/admin_users.html.twig', [
+            'users' => $users
+        ]);
+    }
+
+    #[Route('/admin/users/{id}/update', name: 'app_admin_users_update')]
+    public function adminUserUpdate(User $users = null, Request $request, EntityManagerInterface $manager) : Response
+    {
+        $formUser = $this->createForm(RegistrationFormType::class, $users, [
+            'userUpdateBack' => true
+        ]);
+
+        $formUser->handleRequest($request);
+
+        if($formUser->isSubmitted() && $formUser->isValid())
+        {
+            $this->addFlash('success', "Le rôle a été modifié avec succès !");
+
+            $manager->persist($users);
+
+            $manager->flush();
+
+            return $this->redirectToRoute('app_admin_users');   
+        }
+
+        return $this->render('back_office/admin_user_form.html.twig', [
+            'formUser' => $formUser->createView(),
+            'users' => $users
+        ]); 
+    }
+
+     /*
+        Exo : Le but est de relier les utilisateurs aux articles, lorsque l'internaute poste un article, il faut une relation entre Article et User
+        Créer une nouvelle propriété dans l'entité user 'article' et fait une relation OneToMany, cette propriété peut être null
+        Lorsque l'internaute poste un nouvel article, faites en sorte de renseigner la clé étrangère 'user_id' afin que l'article soit relié à l'utilisateur connecté
+        Dans la page profil de l'utilisateur, afficher dans une liste tout les articles posté par l'internaute (titre article (lien qui redirige vers l'article), date/heure et un lien pour la modification)
+    */
 }
